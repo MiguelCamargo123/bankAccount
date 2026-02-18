@@ -21,8 +21,12 @@ class contaBancaria:
             self.__saldo -= valorSacar
             print('Valor sacado com sucesso')
 
+    def verSaldo(self):
+        print(f'O seu saldo atual é de {self.__saldo}')
+
 titular = input('Digite seu nome: ')
 
 conta = contaBancaria(titular, 0)
 conta.depositar()
 conta.sacar()
+conta.verSaldo()

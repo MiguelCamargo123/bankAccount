@@ -50,7 +50,7 @@ The main class contaBancaria contains the following methods:
 
 - verSaldo(self): Prints the current status of the account.
 
-##📝 Example Usage
+## 📝 Example Usage
 ```Plaintext
   Digite seu nome: John Doe
   Digite um valor: 100

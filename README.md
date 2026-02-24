@@ -59,4 +59,16 @@ The main class contaBancaria contains the following methods:
   O seu saldo atual é de 70
 ```
 
+## 🔄 Version 1.1.0 Updates
+
+- Added transaction history tracking
+
+- Improved method design (input separated from business logic)
+
+- Added structured transaction records (dictionary-based)
+
+- Improved menu flow and validation
+
+- Better separation between system logic and user interface
+
 Created for study purposes.

@@ -4,32 +4,30 @@ class contaBancaria:
         self.__saldo = saldo
         self.historico = []
 
-    def depositar(self):
-        valorDepositar = int(input('Digite um valor: '))
-        if valorDepositar > 0:
-            self.__saldo += valorDepositar
+    def depositar(self, valor):
+        if valor > 0:
+            self.__saldo += valor
             self.historico.append({
                 'Tipo': 'depósito',
-                'Valor': valorDepositar,
+                'Valor': valor,
                 'Saldo Após': self.__saldo
             })
         else:
             print('Digite um valor acima de zero')
 
 
-    def sacar(self):
-        valorSacar = int(input('Digite um valor para sacar: '))
-        if valorSacar <= 0:
+    def sacar(self, valor):
+        if valor <= 0:
             print('Digite um valor maior que zero para poder sacar')
-        elif valorSacar >= self.__saldo:
+        elif valor >= self.__saldo:
             print('Digite um valor menor que seu saldo')
 
         else:
-            self.__saldo -= valorSacar
+            self.__saldo -= valor
             print('Valor sacado com sucesso')
             self.historico.append({
                 'Tipo': 'saque',
-                'Valor': valorSacar,
+                'Valor': valor,
                 'Saldo Após': self.__saldo
             })
 
@@ -44,6 +42,39 @@ class contaBancaria:
 titular = input('Digite seu nome: ')
 
 conta = contaBancaria(titular, 0)
-conta.depositar()
-conta.sacar()
-conta.verSaldo()
+
+def main():
+    while True:
+        pergunta = input(f'Ola {conta.titular}, voce deseja [S]acar, [D]epositar, dar uma olhada no [H]istórico de transações ou [V]seu saldo?').upper()
+
+        if pergunta == 'S':
+            try:
+                valorSacar = int(input('Digite um valor para sacar: '))
+                conta.sacar(valorSacar)
+            except ValueError:
+                print('Digite um número não um texto')
+
+        elif pergunta == 'D':
+            try:
+                valorDeposito = int(input('Digite um valor para depositar: '))
+                conta.depositar(valorDeposito)
+            except ValueError:
+                print('Digite um número não um texto')
+
+        elif pergunta == 'H':
+            conta.verHistorico()
+
+        elif pergunta == 'V':
+            conta.verSaldo()
+
+        else:
+            print('Digite uma das letras dentro das chaves para fazer uma ação')
+
+        perguntaSair = input('Você deseja sair de dentro de nosso sistema? (S/N) ').upper()
+
+        if perguntaSair == 'S':
+            print('Você saiu do nosso sistema')
+            break
+
+if __name__ == '__main__':
+    main()

@@ -61,14 +61,14 @@ def main():
 
         if pergunta == 'S':
             try:
-                valorSacar = float(input('Digite um valor para sacar: '))
+                valorSacar = int(input('Digite um valor para sacar: '))
                 conta.sacar(valorSacar)
             except ValueError:
                 print('Digite um número não um texto')
 
         elif pergunta == 'D':
             try:
-                valorDeposito = float(input('Digite um valor para depositar: '))
+                valorDeposito = int(input('Digite um valor para depositar: '))
                 conta.depositar(valorDeposito)
             except ValueError:
                 print('Digite um número não um texto')

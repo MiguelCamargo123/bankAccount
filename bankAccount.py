@@ -53,6 +53,41 @@ class Conta:
 
 
 class Banco:
-    def __init__(self, pessoa):
+    def __init__(self):
         self.contas = []
-        self.pessoa = pessoa
+        self.__carregar_json_banco()
+
+    def __carregar_json_banco(self):
+        try:
+            with open('contas.json', 'r', encoding='utf-8') as f:
+                self.contas = json.load(f)
+        except FileNotFoundError:
+            self.contas = []
+
+    def __salvar_json_banco(self):
+        dados = []
+        for conta in self.contas:
+            dados.append(
+                {
+                    'Nome do titular': conta.titular,
+                    'Senha do titular': conta.senha,
+                    'Saldo do titular': conta._Conta.__saldo,
+                    'Historico do titular': conta.historico,
+                }
+            )
+        with open('contas.json', 'w', encoding='utf-8') as c:
+            json.dump(dados, c, ensure_ascii=False, indent=4)
+
+    def registrar_pessoa_banco(self, titular, senha):
+        pessoa = Conta(titular, senha)
+        self.contas.append(pessoa)
+        self.__salvar_json_banco()
+
+    def verificar_se_conta_certa(self, nome_titular, senha_digitada):
+        for conta in self.contas:
+            if conta.titular == nome_titular:
+                if hashlib.sha256(senha_digitada.encode()).hexdigest() == conta.senha:
+                    return True, conta
+                else:
+                    return False, None
+            return False, None

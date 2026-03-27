@@ -1,11 +1,13 @@
 import json
+import hashlib
 
 
-class contaBancaria:
-    def __init__(self, titular, saldo):
+class Conta:
+    def __init__(self, titular, senha):
         self.titular = titular
-        self.__saldo = saldo
+        self.senha = hashlib.sha256(senha.encode()).hexdigest()
         self.historico = []
+        self.__saldo = 0
         self.__carregar()
 
     def __carregar(self):
@@ -50,46 +52,7 @@ class contaBancaria:
             print(transacao)
 
 
-def main():
-    titular = input('Digite seu nome: ')
-
-    conta = contaBancaria(titular, 0)
-    while True:
-        pergunta = input(
-            f'Ola {conta.titular}, voce deseja [S]acar, [D]epositar, dar uma olhada no [H]istórico de transações ou [V]seu saldo? '
-        ).upper()
-
-        if pergunta == 'S':
-            try:
-                valorSacar = int(input('Digite um valor para sacar: '))
-                conta.sacar(valorSacar)
-            except ValueError:
-                print('Digite um número não um texto')
-
-        elif pergunta == 'D':
-            try:
-                valorDeposito = int(input('Digite um valor para depositar: '))
-                conta.depositar(valorDeposito)
-            except ValueError:
-                print('Digite um número não um texto')
-
-        elif pergunta == 'H':
-            conta.verHistorico()
-
-        elif pergunta == 'V':
-            conta.verSaldo()
-
-        else:
-            print('Digite uma das letras dentro das chaves para fazer uma ação')
-
-        perguntaSair = input(
-            'Você deseja sair de dentro de nosso sistema? (S/N) '
-        ).upper()
-
-        if perguntaSair == 'S':
-            print('Você saiu do nosso sistema')
-            break
-
-
-if __name__ == '__main__':
-    main()
+class Banco:
+    def __init__(self, pessoa):
+        self.contas = []
+        self.pessoa = pessoa

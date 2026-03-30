@@ -1,13 +1,16 @@
 import json
 import hashlib
+from typing import Any
 
 
 class Conta:
-    def __init__(self, titular, senha):
-        self.titular = titular
-        self.senha = hashlib.sha256(senha.encode()).hexdigest()
-        self.historico = []
-        self.__saldo = 0
+    def __init__(self, titular: str, senha: str) -> None:
+        self.titular: str = titular
+        self.senha: str = hashlib.sha256(senha.encode()).hexdigest()
+        self.arquivo_historico: list[dict[str, Any]] = (
+            f'historico{self.titular.lower().replace(" ", "_")}.json'
+        )
+        self.__saldo: float = 0.0
         self.__carregar()
 
     def __carregar(self):
@@ -96,3 +99,33 @@ class Banco:
                 else:
                     return False, None
         return False, None
+
+
+def main():
+    banco = Banco()
+
+    try:
+        senha = input('Digite sua senha: ')
+        nome = str(input('Digite o nome do titular da conta: '))
+        sucesso, conta = banco.verificar_se_conta_certa(nome, senha)
+    except ValueError:
+        print(
+            'Por favor, digite o nome (um texto) no campo de digitar o nome do titular, não um número!!!'
+        )
+        return
+
+    if sucesso:
+        while True:
+            fazer_oque = input(
+                'Você deseja [D]epositar um valor, [S]acar um valor, [V]er o seu saldo ou ver seu [H]istórico? '
+            ).upper()
+
+            match fazer_oque:
+                case 'D':
+                    try:
+                        valor = int(input('Digite um valor para depositar: '))
+                        conta.depositar(valor)
+                    except ValueError:
+                        print(
+                            'Digite um valor (um número) para depositar na sua conta!!!'
+                        )

@@ -60,7 +60,12 @@ class Banco:
     def __carregar_json_banco(self):
         try:
             with open('contas.json', 'r', encoding='utf-8') as f:
-                self.contas = json.load(f)
+                dados = json.load(f)
+                for d in dados:
+                    conta = Conta(d['Nome do titular'], d['Senha do titular'])
+                    conta._Conta__saldo = d['Saldo do titular']
+                    conta.historico = d['Historico do titular']
+                    self.contas.append(conta)
         except FileNotFoundError:
             self.contas = []
 
@@ -90,4 +95,4 @@ class Banco:
                     return True, conta
                 else:
                     return False, None
-            return False, None
+        return False, None
